@@ -2,7 +2,7 @@ var compressor = require('../');
 
 var exmp = [
     {
-        "_id": "57766fc53543e84a003d4c43",
+        "_id": "666",
         "user": [
             {
                 "_id": "577554a89fcaae26c914a71c",
@@ -24,7 +24,32 @@ var exmp = [
                 "code": "952954743585",
                 "codeUsageBaseUrl": null
 }]
+},
+{
+        "_id": "555",
+        "user": [
+            {
+                "_id": "577554a89fcaae26c914a71c",
+                "email": "jay@gmail.com",
+                "firstName": "Feliciana",
+                "lastName": "Savastano"
+                }
+        ],
+        "coupon": [
+            {
+                "used": [{
+                    "status": false
+                }],
+                "scratched": true,
+                "winning": true,
+                "analyzed": true,
+                "active": true,
+                "created": "2016-07-01T13:27:33.568Z",
+                "code": "952954743585",
+                "codeUsageBaseUrl": null
+}]
 }];
+
 //var exmp = [{
 //        "firstName": "andrea",
 //        "lastName": "giglio",

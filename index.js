@@ -1,47 +1,50 @@
 var compatted = [],
-    lables = [];
-var _splitter = "-";
+    _splitter = "-";
 var _unwind = true;
 
-
 function compatct(arrayJsonObjs) {
-    var partials = [];
+    var partials = [],
+        allParams = [];
+    console.log("arrayJsonObjs.length", arrayJsonObjs.length);
     for (var i = 0; i < arrayJsonObjs.length; i++) {
-        var jsonObj = arrayJsonObjs[i];
-        var notNestedArrayParams = [];
-        var foundOneArray = false;
-        var partialsPush = false;
-        // find for not Array 
+        console.log("I REPEAT " + i);
+        var jsonObj = new Object(arrayJsonObjs[i]),
+            notNestedArrayParams = [],
+            foundOneArray = false,
+            partialsPush = false;
+
+        // find for NOT Array and NOT Object
         for (var lbl in jsonObj) {
-            lables.push(lbl);
-            //console.log("jsonObj[lbl]", jsonObj[lbl]);
-            //console.log("[lbl]", [lbl]);
-            //            console.log("constructor", jsonObj[lbl].constructor);
             if (jsonObj[lbl] != undefined && !Array.isArray(jsonObj[lbl]) && jsonObj[lbl].constructor !== Object) {
-                //console.log("notNestedArrayParams:");
-                notNestedArrayParams.push(lbl);
-            } else {
-                // console.log("partialsPush");
-                partialsPush = true;
+                notNestedArrayParams.push(lbl); // PUSH propery not Array or Object
+                continue;
             }
+            partialsPush = true;
         }
+        /*
+            Create base model with all params and values for NOT OBJ OR NOR ARRAY params
+        */
+        var partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams);
+
         if (!partialsPush) {
-            // console.log("!partialsPush");
-            partials.push(getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams));
+            // Add element
+            console.log("partialsPush");
+            partials.push(partial);
         } else {
-            //console.log("notNestedArrayParams", notNestedArrayParams);
             // find for Array nested
-            var NestedArrayParams = {};
-            var partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams);
+            var NestedArrayParams = {} // Variable with nester params 
+
+            /*
+                FOR into ONE JSON OBJECT FROM ARRAY LIST[...]
+            */
             for (var lbl in jsonObj) {
-                partialsPush = false;
+                console.log("lbl", lbl);
                 if (jsonObj[lbl] && jsonObj[lbl].constructor === Object) {
-                    jsonObj[lbl] = new Array(jsonObj[lbl])
+                    console.log("THIS IS OBJECT, need ARRAY WRAP");
+                    jsonObj[lbl] = new Array(jsonObj[lbl]);
                 }
                 if (Array.isArray(jsonObj[lbl])) {
                     foundOneArray = true;
-                    //console.log("is array: " + Array.isArray(jsonObj[lbl]));
-                    //console.log("Partial:" + Array.isArray(jsonObj[lbl]));
                     for (var sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
                         if (!_unwind) {
                             partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
@@ -57,38 +60,32 @@ function compatct(arrayJsonObjs) {
                             }
                             NestedArrayParams[lbl + _splitter + sub_doc_2] = true;
                         }
-                        if (!_unwind) {
-                            partials.push(partial); //2
-                            partialsPush == true; // 2}
-                        }
-
-                        // console.log("Partials: \n", partials);
                     }
                 }
-                if (_unwind) {
-                    partials.push(partial);
-                    partialsPush == true;
-                }
             }
+            partials.push(partial);
+            partialsPush == true;
         }
-        var allParams = notNestedArrayParams;
+        /*
+            CREATE all params array fot outuput 
+        */
+        allParams = notNestedArrayParams;
         for (var l in NestedArrayParams) {
             allParams.push(l);
         }
-        return {
-            again: foundOneArray,
-            partials: partials,
-            allParams: allParams
-        };
     }
+    return {
+        again: foundOneArray,
+        partials: partials,
+        allParams: allParams
+    };
 };
 
 function getFromNestedArray(jsonObj, notNestedArrayParams) {
     var obj = {};
-    for (var i = 0; i < notNestedArrayParams.length; i++) {
-        obj[notNestedArrayParams[i]] = jsonObj[notNestedArrayParams[i]];
+    for (var k = 0; k < notNestedArrayParams.length; k++) {
+        obj[notNestedArrayParams[k] + ""] = new String(jsonObj[notNestedArrayParams[k] + ""]);
     }
-    // console.log("getFromNestedArray", getFromNestedArray);
     return obj;
 }
 
@@ -96,20 +93,15 @@ function getFromNestedArray(jsonObj, notNestedArrayParams) {
 function start(array, callback) {
     var test = compatct(array);
     if (test.again === true) {
-        //return callback(test);
-        //console.log("PARTIAL \n", test);
         start(test.partials, callback);
     } else {
-        //console.log("RESULT \n", test);
         return callback(test);
     }
 }
 
 function init(obj, callback) {
-    // console.log("obj", obj);
     _unwind = obj.unwind !== undefined ? obj.unwind : true;
     console.log("unwind: " + _unwind);
     start(obj.list, callback);
 }
-
 exports.compress = init;
