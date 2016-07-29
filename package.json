@@ -1,12 +1,15 @@
-
 {
-  "name": "json-compressor-for-csv",
-  "version": "1.0.5",
-  "description": "Module compress JSON to be easily exported to CSV",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": " <Andrea Giglio andrea-giglio@ive.it>",
-  "license": "ISC"
+    "name": "json-compressor-for-csv",
+    "version": "1.0.6",
+    "description": "Module compress JSON to be easily exported to CSV",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TicketeStartup/json-compressor-for-csv"
+    },
+    "author": "Andrea Giglio <andrea-giglio@ive.it>",
+    "license": "ISC"
 }
