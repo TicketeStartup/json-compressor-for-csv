@@ -5,9 +5,7 @@ var _unwind = true;
 function compatct(arrayJsonObjs) {
     var partials = [],
         allParams = [];
-    console.log("arrayJsonObjs.length", arrayJsonObjs.length);
     for (var i = 0; i < arrayJsonObjs.length; i++) {
-        console.log("I REPEAT " + i);
         var jsonObj = new Object(arrayJsonObjs[i]),
             notNestedArrayParams = [],
             foundOneArray = false,
@@ -28,7 +26,6 @@ function compatct(arrayJsonObjs) {
 
         if (!partialsPush) {
             // Add element
-            console.log("partialsPush");
             partials.push(partial);
         } else {
             // find for Array nested
@@ -38,9 +35,7 @@ function compatct(arrayJsonObjs) {
                 FOR into ONE JSON OBJECT FROM ARRAY LIST[...]
             */
             for (var lbl in jsonObj) {
-                console.log("lbl", lbl);
                 if (jsonObj[lbl] && jsonObj[lbl].constructor === Object) {
-                    console.log("THIS IS OBJECT, need ARRAY WRAP");
                     jsonObj[lbl] = new Array(jsonObj[lbl]);
                 }
                 if (Array.isArray(jsonObj[lbl])) {
