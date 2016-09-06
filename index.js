@@ -1,10 +1,11 @@
-var compatted = [],
-    _splitter = "-";
-var _unwind = true;
+const _ = require('underscore');
+const compatted = [],
+    _splitter = "-",
+    _unwind = true,
+    allParams = [];
 
 function compatct(arrayJsonObjs) {
-    var partials = [],
-        allParams = [];
+    var partials = [];
     for (var i = 0; i < arrayJsonObjs.length; i++) {
         var jsonObj = new Object(arrayJsonObjs[i]),
             notNestedArrayParams = [],
@@ -30,30 +31,33 @@ function compatct(arrayJsonObjs) {
         } else {
             // find for Array nested
             var NestedArrayParams = {} // Variable with nester params 
-
-            /*
-                FOR into ONE JSON OBJECT FROM ARRAY LIST[...]
-            */
+                /*
+                    FOR into ONE JSON OBJECT FROM ARRAY LIST[...]
+                */
             for (var lbl in jsonObj) {
                 if (jsonObj[lbl] && jsonObj[lbl].constructor === Object) {
                     jsonObj[lbl] = new Array(jsonObj[lbl]);
                 }
                 if (Array.isArray(jsonObj[lbl])) {
-                    foundOneArray = true;
-                    for (var sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
-                        if (!_unwind) {
-                            partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
-                        }
-                        for (sub_doc_2 in jsonObj[lbl][sub_doc_index]) {
-                            if (jsonObj[lbl][sub_doc_index]) {
-                                if (jsonObj[lbl][sub_doc_index][sub_doc_2] && jsonObj[lbl][sub_doc_index][sub_doc_2].constructor === Object) {
-                                    jsonObj[lbl][sub_doc_index][sub_doc_2] = new Array(jsonObj[lbl][sub_doc_index][sub_doc_2])
+                    if (jsonObj[lbl].length >= 1 && jsonObj[lbl][0].constructor === String) {
+                        partial[lbl] = jsonObj[lbl][0]
+                    } else {
+                        foundOneArray = true;
+                        for (var sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
+                            if (!_unwind) {
+                                partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
+                            }
+                            for (sub_doc_2 in jsonObj[lbl][sub_doc_index]) {
+                                if (jsonObj[lbl][sub_doc_index]) {
+                                    if (jsonObj[lbl][sub_doc_index][sub_doc_2] && jsonObj[lbl][sub_doc_index][sub_doc_2].constructor === Object) {
+                                        jsonObj[lbl][sub_doc_index][sub_doc_2] = new Array(jsonObj[lbl][sub_doc_index][sub_doc_2])
+                                    }
                                 }
+                                if (jsonObj[lbl][sub_doc_index]) {
+                                    partial[lbl + _splitter + sub_doc_2] = jsonObj[lbl][sub_doc_index][sub_doc_2];
+                                }
+                                NestedArrayParams[lbl + _splitter + sub_doc_2] = true;
                             }
-                            if (jsonObj[lbl][sub_doc_index]) {
-                                partial[lbl + _splitter + sub_doc_2] = jsonObj[lbl][sub_doc_index][sub_doc_2];
-                            }
-                            NestedArrayParams[lbl + _splitter + sub_doc_2] = true;
                         }
                     }
                 }
@@ -72,7 +76,7 @@ function compatct(arrayJsonObjs) {
     return {
         again: foundOneArray,
         partials: partials,
-        allParams: allParams
+        allKeys: _.uniq(allParams)
     };
 };
 
@@ -95,8 +99,9 @@ function start(array, callback) {
 }
 
 function init(obj, callback) {
+    allParams = [];
     _unwind = obj.unwind !== undefined ? obj.unwind : true;
-    console.log("unwind: " + _unwind);
+    _splitter = obj.splitter !== undefined ? obj.splitter : "-";
     start(obj.list, callback);
 }
 exports.compress = init;
