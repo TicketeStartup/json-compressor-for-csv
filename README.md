@@ -15,11 +15,14 @@
 	const compressor = require('json-compressor-for-csv'); 
 	
 	compressor.compress({
-    list: _uncompressed,    // ARRAY only
-    unwind: true
-    }, function (jsv) {
-      console.log("Compressed " + JSON.stringify(jsv, 0, 2));
-    });
+	    list: _uncompressed,    // ARRAY only
+	    unwind: true,
+	    splitter : "-" // default "-"
+	   }, function (jsv) {
+      	     console.log("Compressed " + JSON.stringify(jsv, 0, 2));
+	 });
+
+## Exemples ##
 
 ### Exemple 1 ###
       
@@ -45,7 +48,7 @@
                             "games-code": "A"
                           }
                         ],
-              "allParams2":["firstName","lastName","games-id","games-code"]
+              "allKeys":["firstName","lastName","games-id","games-code"]
             }
   
   
@@ -156,7 +159,34 @@
             "games-actions-code": "I"
           }
         ],
-        "allParams2": [
+        "allKeys": [
           "firstName","lastName","games-id","games-code","games-actions-id","games-actions-code","games-actions-jays-name","games-actions-jays-surname"
         ]
       }
+
+
+## Export to CSV ##
+
+You can convert the compressed json using [json2csv](https://www.npmjs.com/package/json2csv)	
+
+	npm install json-compressor-for-csv
+	npm install json2csv
+	
+	const compressor = require('json-compressor-for-csv'),
+		json2csv = require('json2csv');
+		
+	compressor.compress({
+	        list: _uncompressed,
+	        unwind: true
+	    }, function (jsv) {
+	        //console.log("COMPRESSED", jsv);
+	        json2csv({
+	                data: JSON.parse(JSON.stringify(jsv.partials)),
+	                fields: jsv.allParams,
+	                del: ';'
+	            },
+	            function (err, csv) {
+	                //console.log("CSV", csv);
+	            });
+	    });
+	
