@@ -1,7 +1,7 @@
 const _ = require('underscore');
 let compatted = [],
     _splitter = "-",
-    allParams = [];
+    allKeys = [];
 
 function compatct(arrayJsonObjs) {
     var partials = [];
@@ -66,15 +66,15 @@ function compatct(arrayJsonObjs) {
         /*
             CREATE all params array fot outuput 
         */
-        allParams = notNestedArrayParams;
+
         for (var l in NestedArrayParams) {
-            allParams.push(l);
+            allKeys.push(l);
         }
     }
     return {
         again: foundOneArray,
         partials: partials,
-        allKeys: _.uniq(allParams)
+        allKeys: _.uniq(allKeys)
     };
 };
 
@@ -98,7 +98,7 @@ function start(array, callback) {
 
 function init(obj, callback) {
     console.log("obj", obj);
-    allParams = [];
+    allKeys = [];
     _splitter = obj.splitter !== undefined ? obj.splitter : "-";
     start(obj.list, callback);
 }
