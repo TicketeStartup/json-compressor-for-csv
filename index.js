@@ -1,7 +1,6 @@
 const _ = require('underscore');
-const compatted = [],
+let compatted = [],
     _splitter = "-",
-    _unwind = true,
     allParams = [];
 
 function compatct(arrayJsonObjs) {
@@ -44,9 +43,7 @@ function compatct(arrayJsonObjs) {
                     } else {
                         foundOneArray = true;
                         for (var sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
-                            if (!_unwind) {
-                                partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
-                            }
+                            partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
                             for (sub_doc_2 in jsonObj[lbl][sub_doc_index]) {
                                 if (jsonObj[lbl][sub_doc_index]) {
                                     if (jsonObj[lbl][sub_doc_index][sub_doc_2] && jsonObj[lbl][sub_doc_index][sub_doc_2].constructor === Object) {
@@ -58,11 +55,12 @@ function compatct(arrayJsonObjs) {
                                 }
                                 NestedArrayParams[lbl + _splitter + sub_doc_2] = true;
                             }
+                            partials.push(partial);
                         }
                     }
                 }
             }
-            partials.push(partial);
+            console.log("partial", partial);
             partialsPush == true;
         }
         /*
@@ -99,8 +97,8 @@ function start(array, callback) {
 }
 
 function init(obj, callback) {
+    console.log("obj", obj);
     allParams = [];
-    _unwind = obj.unwind !== undefined ? obj.unwind : true;
     _splitter = obj.splitter !== undefined ? obj.splitter : "-";
     start(obj.list, callback);
 }

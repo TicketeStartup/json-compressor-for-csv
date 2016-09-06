@@ -10,62 +10,29 @@ var exmp = [{
 			},
             {
                 "id": 1,
-                "code": "B"
+                "code": "B",
+                "numer": 7
 			},
             {
                 "id": 2,
-                "code": "C"
-			},
-            {
-                "id": 0,
-                "code": "D",
+                "code": "C",
                 "actions": [
                     {
                         "id": 0,
-                        "code": "A"
-                   },
+                        "code": "I",
+                        "numer": 8
+				    },
                     {
-                        "id": 21,
+                        "id": 1,
                         "code": "J"
-                   },
-                    {
-                        "id": 32,
-                        "code": "K"
-                   },
-                    {
-                        "id": 0,
-                        "code": "A",
-                        "jays": [{
-                                "name": "COOL"
-                       }, {
-                                "name": "COOL1",
-                                "surname": "BU"
-                       },
-                            {
-                                "name": "COOL2"
-                       }]
-
-                   }
-				]
-			}
-	]
-},
+								}
+							]
+            }]
+    },
     {
         "firstName": "luca",
         "lastName": "medici",
         "games": [
-            {
-                "id": 0,
-                "code": "E"
-			},
-            {
-                "id": 1,
-                "code": "F"
-			},
-            {
-                "id": 2,
-                "code": "G"
-			},
             {
                 "id": 0,
                 "code": "H",
@@ -73,15 +40,26 @@ var exmp = [{
                     {
                         "id": 0,
                         "code": "I"
-								}
-							]
-			}
-	]
-}];
+				    },
+                    {
+                        "id": 1,
+                        "code": "J",
+                        "books": [
+                            {
+                                "id": 0,
+                                "code": "KK"
+				    },
+                            {
+                                "id": 1,
+                                "code": "LL"
+				    }]
+				    }]
+            }]
+    }];
 
 compressor.compress({
     list: exmp,
-    unwind: true
+    splitter: "-"
 }, function (j) {
     console.log("Original " + JSON.stringify(exmp, 0, 2));
     console.log("Compressed " + JSON.stringify(j, 0, 2));

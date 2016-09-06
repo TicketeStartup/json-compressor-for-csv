@@ -16,7 +16,6 @@
 	
 	compressor.compress({
 	    list: _uncompressed,    // ARRAY only
-	    unwind: true,
 	    splitter : "-" // default "-"
 	   }, function (jsv) {
       	     console.log("Compressed " + JSON.stringify(jsv, 0, 2));
@@ -55,114 +54,130 @@
 ### Exemple 2 ###
 
 
-    let _uncompressed = [
+    let _uncompressed = [{
+        "firstName": "andrea",
+        "lastName": "giglio",
+        "games": [
             {
-                  "firstName": "andrea",
-                  "lastName": "giglio",
-                  "games": [
-                      {
-                          "id": 0,
-                          "code": "A"
-          			},
-                      {
-                          "id": 1,
-                          "code": "B"
-          			},
-                      {
-                          "id": 2,
-                          "code": "C"
-          			},
-                      {
-                          "id": 0,
-                          "code": "D",
-                          "actions": [
-                              {
-                                  "id": 0,
-                                  "code": "A"
-                             },
-                              {
-                                  "id": 21,
-                                  "code": "J"
-                             },
-                              {
-                                  "id": 32,
-                                  "code": "K"
-                             },
-                              {
-                                  "id": 0,
-                                  "code": "A",
-                                  "jays": [{
-                                          "name": "COOL"
-                                 }, {
-                                          "name": "COOL1",
-                                          "surname": "BU"
-                                 },
-                                      {
-                                          "name": "COOL2"
-                                 }]
-          
-                             }
-          	  	]
-          			}
-            	]
-               },
-              {
-                  "firstName": "luca",
-                  "lastName": "medici",
-                  "games": [
-                      {
-                          "id": 0,
-                          "code": "E"
-          			},
-                      {
-                          "id": 1,
-                          "code": "F"
-          			},
-                      {
-                          "id": 2,
-                          "code": "G"
-          			},
-                      {
-                          "id": 0,
-                          "code": "H",
-                          "actions": [
-                              {
-                                  "id": 0,
-                                  "code": "I"
-          								}
-          							]
-          			}
-          	]
-          }
-    ];
+                "id": 0,
+                "code": "A"
+			},
+            {
+                "id": 1,
+                "code": "B",
+                "numer": 7
+			},
+            {
+                "id": 2,
+                "code": "C",
+                "actions": [
+                    {
+                        "id": 0,
+                        "code": "I",
+                        "numer": 8
+				    },
+                    {
+                        "id": 1,
+                        "code": "J"
+								}
+							]
+            }]
+    },
+    {
+        "firstName": "luca",
+        "lastName": "medici",
+        "games": [
+            {
+                "id": 0,
+                "code": "H",
+                "actions": [
+                    {
+                        "id": 0,
+                        "code": "I"
+				    },
+                    {
+                        "id": 1,
+                        "code": "J",
+                        "books": [
+                            {
+                                "id": 0,
+                                "code": "KK"
+				    },
+                            {
+                                "id": 1,
+                                "code": "LL"
+				    }]
+				    }]
+            }]
+    }];
   
 **Compressed**
 
-        "again": false,
-        "partials": [
-          {
-            "firstName": "andrea",
-            "lastName": "giglio",
-            "games-id": "0",
-            "games-code": "D",
-            "games-actions-id": "0",
-            "games-actions-code": "A",
-            "games-actions-jays-name": "COOL2",
-            "games-actions-jays-surname": "BU"
-          },
-          {
-            "firstName": "luca",
-            "lastName": "medici",
-            "games-id": "0",
-            "games-code": "H",
-            "games-actions-id": "0",
-            "games-actions-code": "I"
-          }
-        ],
-        "allKeys": [
-          "firstName","lastName","games-id","games-code","games-actions-id","games-actions-code","games-actions-jays-name","games-actions-jays-surname"
-        ]
-      }
+		{
+		 "again": false,
+		 "partials": [
+		   {
+		     "firstName": "andrea",
+		     "lastName": "giglio",
+		     "games-id": "0",
+		     "games-code": "A"
+		   },
+		   {
+		     "firstName": "andrea",
+		     "lastName": "giglio",
+		     "games-id": "1",
+		     "games-code": "B",
+		     "games-numer": "7"
+		   },
+		   {
+		     "firstName": "andrea",
+		     "lastName": "giglio",
+		     "games-id": "2",
+		     "games-code": "C",
+		     "games-actions-id": "0",
+		     "games-actions-code": "I",
+		     "games-actions-numer": "8"
+		   },
+		   {
+		     "firstName": "andrea",
+		     "lastName": "giglio",
+		     "games-id": "2",
+		     "games-code": "C",
+		     "games-actions-id": "1",
+		     "games-actions-code": "J"
+		   },
+		   {
+		     "firstName": "luca",
+		     "lastName": "medici",
+		     "games-id": "0",
+		     "games-code": "H",
+		     "games-actions-id": "0",
+		     "games-actions-code": "I"
+		   },
+		   {
+		     "firstName": "luca",
+		     "lastName": "medici",
+		     "games-id": "0",
+		     "games-code": "H",
+		     "games-actions-id": "1",
+		     "games-actions-code": "J",
+		     "games-actions-books-id": "0",
+		     "games-actions-books-code": "KK"
+		   },
+		   {
+		     "firstName": "luca",
+		     "lastName": "medici",
+		     "games-id": "0",
+		     "games-code": "H",
+		     "games-actions-id": "1",
+		     "games-actions-code": "J",
+		     "games-actions-books-id": "1",
+		     "games-actions-books-code": "LL"
+		   }
+		 ],
+		 "allKeys": ["firstName","lastName","games-id","games-code","games-actions-id","games-actions-code","games-actions-books-id","games-actions-books-code"
+		 ]
+		}
 
 
 ## Export to CSV ##
@@ -176,8 +191,7 @@ You can convert the compressed json using [json2csv](https://www.npmjs.com/packa
 		json2csv = require('json2csv');
 		
 	compressor.compress({
-	        list: _uncompressed,
-	        unwind: true
+	        list: _uncompressed
 	    }, function (jsv) {
 	        //console.log("COMPRESSED", jsv);
 	        json2csv({
