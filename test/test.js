@@ -33,34 +33,34 @@ var exmp = [{
 								}
 							]
             }]
+    },
+    {
+        "firstName": "luca",
+        "lastName": "medici",
+        "games": [
+            {
+                "id": 0,
+                "code": "H",
+                "actions": [
+                    {
+                        "id": 0,
+                        "code": "I"
+				    },
+                    {
+                        "id": 1,
+                        "code": "J",
+                        "books": [
+                            {
+                                "id": 0,
+                                "code": "KK"
+				    },
+                            {
+                                "id": 1,
+                                "code": "LL"
+				    }]
+				    }]
+            }]
     }];
-//    {
-//        "firstName": "luca",
-//        "lastName": "medici",
-//        "games": [
-//            {
-//                "id": 0,
-//                "code": "H",
-//                "actions": [
-//                    {
-//                        "id": 0,
-//                        "code": "I"
-//				    },
-//                    {
-//                        "id": 1,
-//                        "code": "J",
-//                        "books": [
-//                            {
-//                                "id": 0,
-//                                "code": "KK"
-//				    },
-//                            {
-//                                "id": 1,
-//                                "code": "LL"
-//				    }]
-//				    }]
-//            }]
-//    }];
 
 compressor.compress({
     list: exmp,

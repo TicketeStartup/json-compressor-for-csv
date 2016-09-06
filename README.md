@@ -175,9 +175,11 @@
 		     "games-actions-books-code": "LL"
 		   }
 		 ],
-		 "allKeys": ["firstName","lastName","games-id","games-code","games-actions-id","games-actions-code","games-actions-books-id","games-actions-books-code"
+		 "allKeys": ["games-id","games-code","games-numer","games-actionsObj","games-actions","games-actionsObj-id","games-actionsObj-code","games-actionsObj-numer","games-actions-id","games-actions-code","games-actions-numer","games-actions-books","games-actions-books-id","games-actions-books-code"
 		 ]
 		}
+
+ 
 
 
 ## Export to CSV ##
