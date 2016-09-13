@@ -61,15 +61,17 @@ function compatct(arrayJsonObjs) {
                     }
                 }
             }
-            console.log("partial", partial);
+            //console.log("partial", partial);
             partialsPush == true;
         }
         /*
             CREATE all params array fot outuput 
         */
-
         for (var l in NestedArrayParams) {
             allKeys.push(l);
+        }
+        for (var n in notNestedArrayParams) {
+            allKeys.push(notNestedArrayParams[n]);
         }
     }
     return {
@@ -98,7 +100,7 @@ function start(array, callback) {
 }
 
 function init(obj, callback) {
-    console.log("obj", obj);
+   // console.log("obj", obj);
     allKeys = [];
     _splitter = obj.splitter !== undefined ? obj.splitter : "-";
     start(obj.list, callback);
