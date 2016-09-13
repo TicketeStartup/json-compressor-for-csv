@@ -62,46 +62,6 @@ var compressor = require('../');
 //            }]
 //    }];
 
-
-var exmp = [{
-        _id: "5775549f9fcaae26c9148fea",
-        approved: true,
-        banned: false,
-        email: 'ska_kia91@yahoo.it',
-        firstName: 'Chiara',
-        lastName: 'Gar',
-        userAgent: 'iOS',
-        username: 'Kiamberbatch',
-        role: 'ROLE_USER',
-        inviteCode: 'CHI5564'
-    },
-    {
-        _id: "5775549f9fcaae26c9148fea",
-        address: {
-            cap: '04016'
-        },
-        approved: true,
-        banned: false,
-        email: 'maria_amato@live.it',
-        firstName: 'maria',
-        gender: 'female',
-        lastName: 'amato',
-        role: 'ROLE_USER',
-        inviteCode: 'MAR5583'
-    },
-    {
-        address: {
-            cap: '00040'
-        },
-        approved: true,
-        banned: false,
-        email: 'leograndeg@gmail.com',
-        firstName: 'Giuseppe',
-        gender: 'male',
-        lastName: 'leogrande',
-        role: 'ROLE_USER',
-        inviteCode: 'GIU551'
-    }];
 compressor.compress({
     list: exmp,
     splitter: "-"
