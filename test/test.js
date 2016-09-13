@@ -66,6 +66,7 @@ compressor.compress({
     list: exmp,
     splitter: "-"
 }, function (j) {
-    console.log("Original " + JSON.stringify(exmp, 0, 2));
+    //console.log("Original " + JSON.stringify(exmp, 0, 2));
     console.log("Compressed " + JSON.stringify(j, 0, 2));
+    console.log("again " + j.again);
 });
