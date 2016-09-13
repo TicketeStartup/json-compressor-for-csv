@@ -39,7 +39,7 @@ function compatct(arrayJsonObjs) {
                     jsonObj[lbl] = new Array(jsonObj[lbl]);
                 }
                 if (Array.isArray(jsonObj[lbl])) {
-                    if (jsonObj[lbl].length >= 1 && jsonObj[lbl][0].constructor === String) {
+                    if (jsonObj[lbl].length >= 1 && jsonObj[lbl][0] && jsonObj[lbl][0].constructor === String) {
                         partial[lbl] = jsonObj[lbl][0]
                     } else {
                         foundOneArray = true;
