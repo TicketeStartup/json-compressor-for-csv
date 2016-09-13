@@ -43,9 +43,9 @@ function compatct(arrayJsonObjs) {
                         partial[lbl] = jsonObj[lbl][0]
                     } else {
                         foundOneArray = true;
-                        for (var sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
+                        for (let sub_doc_index = 0; sub_doc_index < jsonObj[lbl].length; sub_doc_index++) {
                             partial = getFromNestedArray(arrayJsonObjs[i], notNestedArrayParams); // 2
-                            for (sub_doc_2 in jsonObj[lbl][sub_doc_index]) {
+                            for (let sub_doc_2 in jsonObj[lbl][sub_doc_index]) {
                                 if (jsonObj[lbl][sub_doc_index]) {
                                     if (jsonObj[lbl][sub_doc_index][sub_doc_2] && jsonObj[lbl][sub_doc_index][sub_doc_2].constructor === Object) {
                                         jsonObj[lbl][sub_doc_index][sub_doc_2] = new Array(jsonObj[lbl][sub_doc_index][sub_doc_2])
