@@ -125,8 +125,8 @@ function externalInit(array, dadCallback, labels, limiter) {
         //        console.log("FINE:  \n", JKQ);
         //        console.log("FINE:  \n", LLB);
         return dadCallback({
-            results: JKQ.length ? JKQ : array,
-            labels: LLB.length ? LLB : ORIGINALLABELS
+            partials: JKQ.length ? JKQ : array,
+            allKeys: LLB.length ? LLB : ORIGINALLABELS
         });
     });
 }

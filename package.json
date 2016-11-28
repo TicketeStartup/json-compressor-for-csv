@@ -1,6 +1,6 @@
 {
   "name": "json-compressor-for-csv",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "Module compress JSON to be easily exported to CSV",
   "main": "index.js",
   "scripts": {

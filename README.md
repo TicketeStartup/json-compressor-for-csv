@@ -32,7 +32,7 @@
   **Compressed**
   
 	{
-		"results": [
+		"partials": [
 		    {
 		      "firstName": "andrea",
 		      "lastName": "giglio",
@@ -40,7 +40,7 @@
 		      "games-code": "A"
 		    }
 		  ],
-		 "labels": [
+		 "allKeys": [
 		    "firstName",
 		    "lastName",
 		    "games-id",
@@ -96,7 +96,7 @@
 
 		
 	{
-		"results": [
+		"partials": [
 		    {
 		      "firstName": "luca",
 		      "lastName": "medici",
@@ -128,7 +128,7 @@
 		      "games-actions-numer": 8
 		    }
 		  ],
-		  "labels": [
+		  "allKeys": [
 		    "firstName",
 		    "lastName",
 		    "games-id",
@@ -156,8 +156,8 @@ You can convert the compressed json using [json2csv](https://www.npmjs.com/packa
 	    }, function (jsv) {
 	        //console.log("COMPRESSED", jsv);
 	        json2csv({
-	                data: JSON.parse(JSON.stringify(jsv.results)),
-	                fields: jsv.labels,
+	                data: JSON.parse(JSON.stringify(jsv.partials)),
+	                fields: jsv.allKeys,
 	                del: ';'
 	            },
 	            function (err, csv) {
