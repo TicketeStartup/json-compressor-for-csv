@@ -1,7 +1,7 @@
 "use strict";
 const _ = require('underscore'),
     async = require('async'),
-    merge = require('merge');
+    merge = require('object-merge');
 
 let compatted = [],
     _splitter = "-",
@@ -26,12 +26,12 @@ function compatctFull(array) {
                 for (var subKey in jsonObj[key]) {
                     if (_.isObject(jsonObj[key][subKey]) && !_.isString(jsonObj[key][subKey]) && !_.isArray(jsonObj[key][subKey])) {
                         for (var subSubKey in jsonObj[key][subKey]) {
-                            jsonObj[key + _splitter + subKey + _splitter + subSubKey] = jsonObj[key][subKey][subSubKey];
-                            lables.push(key + _splitter + subKey + _splitter + subSubKey);
+                            jsonObj[key + _splitter + "@" + subKey + "@" + _splitter + subSubKey] = jsonObj[key][subKey][subSubKey];
+                            lables.push(key + _splitter + "@" + subKey + "@" + _splitter + subSubKey);
                         }
                     } else {
-                        jsonObj[key + _splitter + subKey] = jsonObj[key][subKey];
-                        lables.push(key + _splitter + subKey);
+                        jsonObj[key + _splitter + "@" + subKey + "@"] = jsonObj[key][subKey];
+                        lables.push(key + _splitter + "@" + subKey + "@");
                     }
                 }
                 delete jsonObj[key];
@@ -42,50 +42,6 @@ function compatctFull(array) {
     return {
         lables: _.unique(lables),
         partials: array,
-        again: f
-    }
-}
-
-function compatct(array) {
-    var base = {},
-        lables = [],
-        results = [];
-    // indetify Base model
-    for (var i = 0; i < array.length; i++) {
-        var jsonObj = array[i];
-        for (var key in jsonObj) {
-            if (!_.isArray(jsonObj[key]) && !_.isObject(jsonObj[key])) {
-                if (!base[i]) base[i] = {};
-                base[i][key] = jsonObj[key];
-                lables.push(key);
-            }
-        }
-    }
-    var f = false;
-    for (var i = 0; i < array.length; i++) {
-        var jsonObj = array[i];
-        for (var key in jsonObj) {
-            if (_.isArray(jsonObj[key])) {
-                f = true;
-                for (var subKey in jsonObj[key]) {
-                    var tempObj = {};
-                    if (_.isObject(jsonObj[key][subKey]) && !_.isString(jsonObj[key][subKey]) && !_.isArray(jsonObj[key][subKey])) {
-                        for (var subSubKey in jsonObj[key][subKey]) {
-                            tempObj[key + _splitter + subSubKey] = jsonObj[key][subKey][subSubKey];
-                            lables.push(key + _splitter + subSubKey);
-                        }
-                    } else {
-                        tempObj[key + _splitter + subKey] = jsonObj[key][subKey];
-                        lables.push(key + _splitter + subKey);
-                    }
-                    results.push(merge(base[i], tempObj));
-                }
-            }
-        }
-    }
-    return {
-        lables: _.unique(lables),
-        partials: results.length > 0 ? results : array,
         again: f
     }
 }
@@ -145,16 +101,11 @@ function sizing(array, callback) {
 }
 
 // Run
-function start(splitResults, array, superCallback) {
+function start(array, superCallback) {
     async.waterfall([async.apply(sizing, array), compress], (err, array) => {
-        if (splitResults) {
-            var test = compatct(array);
-        } else {
-            var test = compatctFull(array);
-        }
+        var test = compatctFull(array);
         if (test.again === true) {
-            //  console.log("|--AGAIN \n");
-            start(splitResults, test.partials, superCallback);
+            start(test.partials, superCallback);
         } else {
             delete test.again;
             return superCallback(test);
@@ -163,11 +114,13 @@ function start(splitResults, array, superCallback) {
 }
 
 function init(obj, callback) {
-    var _splitter = obj.splitter !== undefined ? obj.splitter : "-",
-        _splitResults = obj.splitResults != undefined ? obj.splitResults : true;
-    start(_splitResults, obj.list || [], callback);
+    var _splitter = obj.splitter !== undefined ? obj.splitter : "-";
+    start(obj.list || [], function (r) {
+        //console.log("====> REQUIRING WITH  \n", r.partials);
+        //  console.log("====> REQUIRING WITH  \n", r.lables);
+        require("./convertToSplittedItems.js").init(r.partials, callback, r.lables);
+    });
 }
-
 module.exports = {
     compress: init
 }
