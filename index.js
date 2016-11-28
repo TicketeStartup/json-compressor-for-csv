@@ -87,7 +87,7 @@ function sizing(array, callback) {
                     f = true;
                 } else {
                     for (var key_sub in jsonObj[key]) {
-                        if (jsonObj[key][key_sub].length === 1 && !_.isString(jsonObj[key][key_sub]) && _.isArray(jsonObj[key][key_sub])) {
+                        if (_.isArray(jsonObj[key][key_sub]) && jsonObj[key][key_sub].length === 1 && !_.isString(jsonObj[key][key_sub]) && _.isArray(jsonObj[key][key_sub])) {
                             jsonObj[key][key_sub] = jsonObj[key][key_sub][0];
                             f = true;
                         }
@@ -95,7 +95,8 @@ function sizing(array, callback) {
                 }
             }
         }
-    } while (f);
+    }
+    while (f);
     // console.log("|--STEP 1 sizing");
     callback(null, array);
 }
